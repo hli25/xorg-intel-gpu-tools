@@ -1118,7 +1118,8 @@ static void dump_general_definitions(struct context *context,
 	const struct bdb_general_definitions *defs = block_data(block);
 	int child_dev_num;
 
-	child_dev_num = (block->size - sizeof(*defs)) / defs->child_dev_size;
+	if (defs->child_dev_size)
+		child_dev_num = (block->size - sizeof(*defs)) / defs->child_dev_size;
 
 	printf("\tCRT DDC GMBUS addr: 0x%02x\n", defs->crt_ddc_gmbus_pin);
 	printf("\tUse DPMS on AIM devices: %s\n", YESNO(defs->dpms_aim));
@@ -1141,7 +1142,8 @@ static void dump_legacy_child_devices(struct context *context,
 	const struct bdb_legacy_child_devices *defs = block_data(block);
 	int child_dev_num;
 
-	child_dev_num = (block->size - sizeof(*defs)) / defs->child_dev_size;
+	if (defs->child_dev_size)
+		child_dev_num = (block->size - sizeof(*defs)) / defs->child_dev_size;
 
 	printf("\tChild device size: %d\n", defs->child_dev_size);
 	printf("\tChild device count: %d\n", child_dev_num);
